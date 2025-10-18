@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>WMS Kontrol Paneli</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/main.js"></script>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>WMS Panel</h2>
+    <a href="#" class="active" onclick="loadPage('pages/forklift.html', this)">📋 Görevler</a>
+    <a href="#" onclick="loadPage('pages/storage.html', this)">📦 Depo</a>
+    <a href="#" onclick="loadPage('pages/reports.html', this)">📈 Raporlar</a>
+    <a href="#" onclick="loadPage('pages/settings.html', this)">⚙️ Ayarlar</a>
+  </div>
+  <div class="content">
+    <iframe id="iframeContent" src="pages/forklift.html"></iframe>
+  </div>
+</body>
+</html>

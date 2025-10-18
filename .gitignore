@@ -1,0 +1,16 @@
+# Node.js / npm
+node_modules/
+dist/
+build/
+
+# macOS
+.DS_Store
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# Others
+.env

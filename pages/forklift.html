@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Forklift Görev Listesi</title>
+  <style>
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background-color: #2f3840; color: white; }
+  </style>
+</head>
+<body>
+  <h2>Forklift Görev Listesi</h2>
+  <table id="taskTable">
+    <thead>
+      <tr><th>ID</th><th>Kaynak</th><th>Hedef</th><th>Öncelik</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    fetch('../data/tasks.json')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector('#taskTable tbody');
+        data.forEach(task => {
+          const row = `<tr>
+            <td>${task.id}</td>
+            <td>${task.source}</td>
+            <td>${task.destination}</td>
+            <td>${task.priority}</td>
+          </tr>`;
+          tbody.insertAdjacentHTML('beforeend', row);
+        });
+      });
+  </script>
+</body>
+</html>
