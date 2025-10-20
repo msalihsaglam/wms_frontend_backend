@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart WMS Ana Sayfa</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .welcome-box {
+      background-color: white;
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+
+    .welcome-box h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      color: #2f3840;
+    }
+
+    .welcome-box p {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    .icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: #3f7dcf;
+    }
+
+    .quick-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .quick-links a {
+      padding: 12px 20px;
+      border-radius: 6px;
+      background-color: #3f7dcf;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .quick-links a:hover {
+      background-color: #345fa7;
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-box">
+    <div class="icon">🧠</div>
+    <h1>Smart WMS'e Hoş Geldiniz</h1>
+    <p>Akıllı depo yönetim sisteminize giriş yapın.<br>Menüden bir işlem seçebilir ya da aşağıdaki kısayollardan birine tıklayabilirsiniz.</p>
+
+    <div class="quick-links">
+      <a href="#" onclick="parent.loadPage('pages/forklift.html', this)">📋 Görevler</a>
+      <a href="#" onclick="parent.loadPage('pages/storage.html', this)">📦 Depo</a>
+      <a href="#" onclick="parent.loadPage('pages/reports.html', this)">📈 Raporlar</a>
+    </div>
+  </div>
+</body>
+</html>

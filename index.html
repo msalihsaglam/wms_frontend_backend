@@ -9,21 +9,25 @@
 </head>
 <body>
   <div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <span class="brand"><span class="emoji">🧠</span> <span class="text">Smart WMS</span></span>
-    </div>
+<div class="sidebar-header">
+  <span class="brand" onclick="loadPage('pages/home.html', this)" style="cursor: pointer;">
+    <span class="emoji">🧠</span>
+    <span class="text">Smart WMS</span>
+  </span>
+</div>
+
     <nav>
-      <a href="#" class="active" onclick="loadPage('pages/forklift copy.html', this)">📋 <span class="label">Görevler</span></a>
-      <a href="#" onclick="loadPage('pages/storage copy.html', this)">📦 <span class="label">Depo</span></a>
-      <a href="#" onclick="loadPage('pages/reports copy.html', this)">📈 <span class="label">Raporlar</span></a>
-      <a href="#" onclick="loadPage('pages/settings copy.html', this)">⚙️ <span class="label">Ayarlar</span></a>
+      <a href="#" class="active" onclick="loadPage('pages/forklift.html', this)">📋 <span class="label">Görevler</span></a>
+      <a href="#" onclick="loadPage('pages/storage.html', this)">📦 <span class="label">Depo</span></a>
+      <a href="#" onclick="loadPage('pages/reports.html', this)">📈 <span class="label">Raporlar</span></a>
+      <a href="#" onclick="loadPage('pages/settings.html', this)">⚙️ <span class="label">Ayarlar</span></a>
     </nav>
     <div class="sidebar-header">
       <button id="toggleBtn">☰</button>
     </div>  
   </div>
   <div class="content">
-    <iframe id="iframeContent" src="pages/forklift.html"></iframe>
+    <iframe id="iframeContent" src="pages/home.html"></iframe>
   </div>
 </body>
 </html>
