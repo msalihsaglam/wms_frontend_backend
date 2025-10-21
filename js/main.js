@@ -40,4 +40,29 @@ function addTask() {
   closeModal();
 }
 
+function renderTable(tasks) {
+  const tbody = document.querySelector('#taskTable tbody');
+  tbody.innerHTML = '';
+
+  if (tasks.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4">Görev bulunamadı.</td></tr>';
+    return;
+  }
+
+  tasks.forEach(task => {
+    let badgeClass = 'priority-low';
+    if (task.priority === 'Yüksek') badgeClass = 'priority-high';
+    else if (task.priority === 'Orta') badgeClass = 'priority-medium';
+    else if (task.priority === 'Düşük') badgeClass = 'priority-low';
+
+    const row = `<tr>
+      <td>${task.id}</td>
+      <td>${task.source}</td>
+      <td>${task.destination}</td>
+      <td><span class="priority-badge ${badgeClass}">${task.priority}</span></td>
+    </tr>`;
+    tbody.insertAdjacentHTML('beforeend', row);
+  });
+}
+
 

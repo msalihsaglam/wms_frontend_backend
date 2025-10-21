@@ -1,9 +1,10 @@
 
 [
-  {"id": "T001", "source": "A1-01", "destination": "B2-03", "priority": "High"},
-  {"id": "T002", "source": "A2-05", "destination": "C1-02", "priority": "Medium"},
-  {"id": "T004", "source": "A1-03", "destination": "D2-01", "priority": "Low"},
-  {"id": "T005", "source": "A4-06", "destination": "D5-01", "priority": "High"},
-  {"id": "T006", "source": "A5-02", "destination": "C2-03", "priority": "Low"},
-  {"id": "T007", "source": "A1-06", "destination": "D4-01", "priority": "Medium"}
+  {"id": "T001", "source": "A1-01", "destination": "B2-03", "priority": "Yüksek"},
+  {"id": "T002", "source": "A2-05", "destination": "C1-02", "priority": "Orta"},
+  {"id": "T004", "source": "A1-03", "destination": "D2-01", "priority": "Düşük"},
+  {"id": "T005", "source": "A4-06", "destination": "D5-01", "priority": "Yüksek"},
+  {"id": "T006", "source": "A5-02", "destination": "C2-03", "priority": "Düşük"},
+  {"id": "T007", "source": "A1-06", "destination": "D4-01", "priority": "Orta"},
+  {"id": "T007", "source": "A1-06", "destination": "D4-01", "priority": "Salih"}
 ]

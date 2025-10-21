@@ -97,3 +97,70 @@ iframe {
   justify-content: flex-end;
   padding: 10px;
 }
+
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  margin-top: 10px;
+}
+
+thead th {
+  background-color: #3f7dcf;
+  color: white;
+  font-weight: 600;
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 14px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+tbody tr {
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: background 0.2s;
+}
+
+tbody tr:hover {
+  background-color: #1bb828;
+}
+
+tbody td {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #333;
+}
+
+
+
+
+.priority-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+}
+
+.priority-high {
+  background-color: #e74c3c;
+}
+
+.priority-medium {
+  background-color: #f1c40f;
+  color: #2f3840;
+}
+
+.priority-low {
+  background-color: #2ecc71;
+}
+
+.priority-unknown {
+  background-color: #393b3a;
+}
+
+
+
