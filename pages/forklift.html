@@ -137,9 +137,14 @@ tbody td {
       <thead>
         <tr>
           <th class="sortable" onclick="sortById(this)"># Görev ID <span id="idArrow">▼</span></th>
-          <th>📦 Kaynak Lokasyon</th>
-          <th>🎯 Hedef Lokasyon</th>
+          <th>Görev Adı / Açıklaması</th>
+          <th>Durum</th>
           <th class="sortable" onclick="sortByPriority(this)">⏳ Öncelik <span id="priorityArrow">▼</span></th>
+          <th>📦 Kaynak Lokasyon (FROM)</th>
+          <th>🎯 Hedef Lokasyon (TO)</th>
+          <th> Operator</th>
+          <th> Olusturulma Tarihi / Saati</th>
+          
 
         </tr>
       </thead>
@@ -177,28 +182,47 @@ function renderTable(tasks) {
   tbody.innerHTML = '';
 
   if (tasks.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="4">Görev bulunamadı.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8">Görev bulunamadı.</td></tr>';
     return;
   }
 
   tasks.forEach(task => {
     
-    let rawPriority = (task.priority || "").toLowerCase();
-
+    //let rawPriority = (task.priority || "").toString();
+    const p = parseInt(task.priority);
     let badgeClass = 'priority-unknown';
-    if (task.priority === 'Yüksek') badgeClass = 'priority-high';
-    else if (task.priority === 'Orta') badgeClass = 'priority-medium';
-    else if (task.priority === 'Düşük') badgeClass = 'priority-low';
+    let priorityText = "Bilinmiyor";
 
-    const row = `<tr>
-      <td>${task.id}</td>
-      <td>${task.source}</td>
-      <td>${task.destination}</td>
-      <td><span class="priority-badge ${badgeClass}">${task.priority}</span></td>
-    </tr>`;
+    if (p == 1) {
+      badgeClass = 'priority-high';
+      priorityText = "Yüksek";
+    } else if (p == 2) {
+      badgeClass = 'priority-medium';
+      priorityText = "Orta";
+    } else if (p == 3) {
+      badgeClass = 'priority-low';
+      priorityText = "Düşük";
+    }
+
+
+
+  
+    const row = `
+      <tr>
+        <td>${task.id}</td>
+        <td>${task.description}</td>
+        <td>${task.status}</td>
+        <td><span class="priority-badge ${badgeClass}">${priorityText}</span></td>
+        <td>${task.location_from}</td>
+        <td>${task.location_to}</td>
+        <td>${task.assigned_to || "—"}</td>
+        <td>${new Date(task.created_at).toLocaleString('tr-TR')}</td>
+      </tr>
+    `;
     tbody.insertAdjacentHTML('beforeend', row);
   });
 }
+
 
 
     function openModal() {
@@ -277,13 +301,49 @@ function sortById(header) {
 
 
 
-
+/*
     fetch('../data/tasks.json')
       .then(res => res.json())
       .then(data => {
         allTasks = data;
         renderTable(allTasks);
       });
-  </script>
+  */
+// Yeni fetch
+fetch("http://127.0.0.1:8000/api/tasks")
+  .then(res => res.json())
+  .then(data => {
+    const tasks = data.tasks.map(task => {
+      // Sayısal önceliği metne çevir
+
+      const p = parseInt(task.priority);
+
+      let priorityText = 
+      p == 1 ? "Yüksek" :
+      p == 2 ? "Orta" :
+      p == 3 ? "Düşük" :
+      "Bilinmiyor";
+
+
+      return {
+        id: task.id,
+        description: task.description,
+        status: task.status,
+        priority: priorityText,
+        location_from: task.location_from,
+        location_to: task.location_to,
+        assigned_to: task.assigned_to || "—",
+        created_at: task.created_at
+      };
+    });
+
+    allTasks = tasks;
+    renderTable(allTasks);
+  })
+  .catch(err => {
+    console.error("API bağlantısı başarısız:", err);
+  });
+
+    </script>
 </body>
 </html>
