@@ -138,12 +138,12 @@ tbody td {
         <tr>
           <th class="sortable" onclick="sortById(this)"># Görev ID <span id="idArrow">▼</span></th>
           <th>Görev Adı / Açıklaması</th>
-          <th>Durum</th>
+          <th class="sortable" onclick="sortByStatus(this)"> Durum <span id="statusArrow">▼</span></th>
           <th class="sortable" onclick="sortByPriority(this)">⏳ Öncelik <span id="priorityArrow">▼</span></th>
           <th>📦 Kaynak Lokasyon (FROM)</th>
           <th>🎯 Hedef Lokasyon (TO)</th>
           <th> Operator</th>
-          <th> Olusturulma Tarihi / Saati</th>
+          <th class="sortable" onclick="sortByCreatedAt(this)">⏳ Olusturulma Zamanı <span id="timeArrow">▼</span></th>
           
 
         </tr>
@@ -188,23 +188,23 @@ function renderTable(tasks) {
 
   tasks.forEach(task => {
     
-    //let rawPriority = (task.priority || "").toString();
-    const p = parseInt(task.priority);
+    let priority = task.priority;
+    
     let badgeClass = 'priority-unknown';
-    let priorityText = "Bilinmiyor";
+    let priorityText = "Belirsiz";
 
-    if (p == 1) {
+    if (priority == 1) {
       badgeClass = 'priority-high';
       priorityText = "Yüksek";
-    } else if (p == 2) {
+    } else if (priority == 2) {
       badgeClass = 'priority-medium';
       priorityText = "Orta";
-    } else if (p == 3) {
+    } else if (priority == 3) {
       badgeClass = 'priority-low';
       priorityText = "Düşük";
     }
 
-
+    console.log("priority:", task.priority, "→","priorityText->", priorityText);
 
   
     const row = `
@@ -252,23 +252,37 @@ function renderTable(tasks) {
       closeModal();
     }
 
-let prioritySortAsc = true;
-
-function sortByPriority(header) {
- const arrow = document.getElementById('priorityArrow');
-  arrow.textContent = prioritySortAsc ? '▲' : '▼';
-  const priorityOrder = {
-    "yüksek": 3,
-    "orta": 2,
-    "düşük": 1
+//Sorting Functions
+let statusSortAsc = true;
+function sortByStatus(header) {
+  const arrow = document.getElementById('statusArrow');
+  arrow.textContent = statusSortAsc ? '▲' : '▼';
+  const statusOrder = {
+    "yeni": 1,
+    "devam ediyor": 2,
+    "tamamlandı": 3,
+    "iptal edildi" : 4
   };
 
-  
+  allTasks.sort((a, b) => {
+    const sa = statusOrder[(a.status || "").toLowerCase()] || 0;
+    const sb = statusOrder[(b.status || "").toLowerCase()] || 0;
+    return statusSortAsc ? sa - sb : sb - sa;
+  });
+
+  statusSortAsc = !statusSortAsc;
+  renderTable(allTasks);
+}
+
+let prioritySortAsc = true;
+function sortByPriority(header) {
+  const arrow = document.getElementById('priorityArrow');
+  arrow.textContent = prioritySortAsc ? '▲' : '▼';
 
   allTasks.sort((a, b) => {
-    const pa = priorityOrder[(a.priority || "").toLowerCase()] || 0;
-    const pb = priorityOrder[(b.priority || "").toLowerCase()] || 0;
-    return prioritySortAsc ? pb - pa : pa - pb;
+    const pa = Number(a.priority);  // priority sayısal zaten
+    const pb = Number(b.priority);
+    return prioritySortAsc ? pa - pb : pb - pa;
   });
 
   prioritySortAsc = !prioritySortAsc;
@@ -276,28 +290,34 @@ function sortByPriority(header) {
 }
 
 let idSortAsc = true;
-
 function sortById(header) {
   const arrow = document.getElementById('idArrow');
   arrow.textContent = idSortAsc ? '▲' : '▼';
 
   allTasks.sort((a, b) => {
-    const getParts = str => {
-      const match = (str || '').match(/([a-zA-Z]+)-?(\d+)/);
-      return match ? [match[1], parseInt(match[2])] : [str, 0];
-    };
-    const [prefixA, numA] = getParts(a.id);
-    const [prefixB, numB] = getParts(b.id);
-
-    if (prefixA === prefixB) {
-      return idSortAsc ? numA - numB : numB - numA;
-    }
-    return idSortAsc ? prefixA.localeCompare(prefixB) : prefixB.localeCompare(prefixA);
+    const idA = Number(a.id);
+    const idB = Number(b.id);
+    return idSortAsc ? idA - idB : idB - idA;
   });
 
   idSortAsc = !idSortAsc;
   renderTable(allTasks);
 }
+
+let dateSortAsc = true;
+function sortByCreatedAt(header) {
+  const arrow = document.getElementById('timeArrow');
+  arrow.textContent = dateSortAsc ? '▲' : '▼';
+  allTasks.sort((a, b) => {
+    const da = new Date(a.created_at);
+    const db = new Date(b.created_at);
+    return dateSortAsc ? da - db : db - da;
+  });
+
+  dateSortAsc = !dateSortAsc;
+  renderTable(allTasks);
+}
+
 
 
 
@@ -309,40 +329,41 @@ function sortById(header) {
         renderTable(allTasks);
       });
   */
-// Yeni fetch
-fetch("http://127.0.0.1:8000/api/tasks")
-  .then(res => res.json())
-  .then(data => {
-    const tasks = data.tasks.map(task => {
-      // Sayısal önceliği metne çevir
-
-      const p = parseInt(task.priority);
-
-      let priorityText = 
-      p == 1 ? "Yüksek" :
-      p == 2 ? "Orta" :
-      p == 3 ? "Düşük" :
-      "Bilinmiyor";
 
 
-      return {
-        id: task.id,
-        description: task.description,
-        status: task.status,
-        priority: priorityText,
-        location_from: task.location_from,
-        location_to: task.location_to,
-        assigned_to: task.assigned_to || "—",
-        created_at: task.created_at
-      };
+//En Yeni fetch
+
+
+  fetch("http://localhost:8000/api/tasks")
+    .then(res => res.json())
+    .then(result => {
+      const tasks = result.tasks.map(task => {
+        //const p = parseInt(task.priority);
+        const p = Number(task.priority);
+        let priorityText = 
+          p == 1 ? "Yüksek" :
+          p == 2 ? "Orta" :
+          p == 3 ? "Düşük" :
+          "Belirsiz";
+
+        return {
+          id: task.id,
+          description: task.description,
+          status: task.status,
+          priority: task.priority,
+          location_from: task.location_from,
+          location_to: task.location_to,
+          assigned_to: task.assigned_to || "—",
+          created_at: task.created_at
+        };
+      });
+
+      allTasks = tasks;
+      renderTable(allTasks);  // 🚀 tabloya yaz
+    })
+    .catch(err => {
+      console.error("Veri alınamadı:", err);
     });
-
-    allTasks = tasks;
-    renderTable(allTasks);
-  })
-  .catch(err => {
-    console.error("API bağlantısı başarısız:", err);
-  });
 
     </script>
 </body>
